@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Bar with Debouncing and Throttling</title>
+</head>
+
+<body>
+
+    <input type="text" id="searchInput" placeholder="Search">
+
+    <script>
+        function performSearch(query) {
+            alert("Searching for: " + query);
+        }
+
+        const debounceFunc = (func, delay) => {
+            let timer;
+            return function (...args) {
+                const context = this;
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    func.apply(context, args)
+                }, delay)
+            }
+        }
+
+        function throttleFunc(func, limit) {
+            let lastCall = 0;
+            return function (...args) {
+                const now = new Date().getTime();
+                if (now - lastCall >= limit) {
+                    func.apply(this, args);
+                    lastCall = now;
+                }
+            };
+        }
+
+        const debouncedSearch = debounceFunc(performSearch, 300);
+        const throttleSearch = throttleFunc(performSearch, 1000);
+
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function (event) {
+            debouncedSearch(event.target.value);
+            //throttleSearch(event.target.value);
+        });
+    </script>
+</body>
+
+</html>

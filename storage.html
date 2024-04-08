@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Counter</title>
+</head>
+<body>
+
+    <h1>Score Counter</h1>
+    <p>Local Score: <span id="localScore">0</span></p>
+    <p>Session Score: <span id="sessionScore">0</span></p>
+    <button id="incButton">Increment</button>
+    <button id="resetButton">Reset</button>
+
+    <script>
+        function initializeScores() {
+            const localScore = localStorage.getItem('localScore');
+            document.getElementById('localScore').textContent = localScore || 0;
+
+            const sessionScore = sessionStorage.getItem('sessionScore');
+            document.getElementById('sessionScore').textContent = sessionScore || 0;
+        }
+
+        function incrementScores() {
+            let localScore = parseInt(localStorage.getItem('localScore')) || 0;
+            localScore++;
+            localStorage.setItem('localScore', localScore);
+            document.getElementById('localScore').textContent = localScore;
+
+            let sessionScore = parseInt(sessionStorage.getItem('sessionScore')) || 0;
+            sessionScore++;
+            sessionStorage.setItem('sessionScore', sessionScore);
+            document.getElementById('sessionScore').textContent = sessionScore;
+        }
+        function resetScores() {
+            localStorage.clear()
+            sessionStorage.clear()
+            document.getElementById('localScore').textContent = 0;
+            document.getElementById('sessionScore').textContent = 0;
+
+        }
+        document.getElementById('incButton').addEventListener('click', incrementScores);
+        document.getElementById('resetButton').addEventListener('click', resetScores);
+
+        initializeScores();
+    </script>
+
+</body>
+</html>
